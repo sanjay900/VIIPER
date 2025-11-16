@@ -9,11 +9,105 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/alia5/VIIPER/pulls)
 
 
+
 # VIIPER 🐍
 
-**Virtual** **I**nput over **IP** **E**mulato**R** 
+**Virtual** **I**nput over **IP** **E**mulato**R**
 
-TODO
+VIIPER is a tool to create virtual input devices using USBIP.
+
+## ℹ️ About VIIPER
+
+VIIPER creates virtual USB input devices using the USBIP protocol.  
+These virtual devices appear as real hardware to the operating system and applications, allowing you to emulate controllers, keyboards, and other input devices without physical hardware.
+
+Beyond device emulation, VIIPER can proxy real USB devices for traffic inspection and  reverse engineering.  
+All devices _can and must be_ controlled programmatically via an API.
+
+### ✨ Features
+
+- ✅ Virtual input device emulation over IP using USBIP
+  - ✅ Xbox 360 controller emulation (virtual device)
+  - 🔜 Keyboard and mouse emulation
+  - 🔜 ???  
+    🚧 Architecture allows for more device types (keyboard, mouse, other gamepads), but only Xbox 360 controller is implemented so far
+- ✅ USBIP server mode: expose virtual devices to remote clients
+- ✅ Proxy mode: forward real USB devices and inspect/record traffic (for reversing)
+- ✅ Cross-platform: works on Linux and Windows
+- ✅ Flexible logging (including raw USB packet logs)
+- ✅ API server for device/bus management and controlling virtual devices programmatically
+
+## 🔌 Requirements
+
+VIIPER relies on USBIP.  
+You must have USBIP installed on your system.
+
+**Linux:**
+
+- **Arch Linux:**
+  - Install: `sudo pacman -S usbip`
+  - Docs: [Arch Wiki: USBIP](https://wiki.archlinux.org/title/USB/IP)
+
+**Windows:**
+
+- [usbip-win2](https://github.com/vadimgrn/usbip-win2) is by far the most complete implementation of USBIP for Windows (comes with a **SIGNED** kernel mode driver).
+
+## 🔌 API
+
+VIIPER includes an  API for device and bus management, as well as streaming device control.  
+Each device type exposes its own control interface via the API.
+
+See the [API documentation](./doc/api.md) for details (🚧 in progress 🚧).
+
+## 🛠️ Development
+
+### 🧰 Prerequisites
+
+- [Go](https://go.dev/) 1.25 or newer
+- USBIP installed
+
+### 🔄 Building from Source
+
+```bash
+git clone https://github.com/Alia5/VIIPER.git
+cd VIIPER/viiper
+go build -o viiper ./cmd/viiper
+```
+
+## 🤝 Contributing
+
+Contributions are welcome!  
+Please open issues or pull requests on GitHub.  
+See the [issues page](https://github.com/Alia5/VIIPER/issues) for bugs and feature requests.
+
+## ❓ FAQ
+
+### What is USBIP and why does VIIPER use it?
+
+USBIP is a protocol that allows USB devices to be shared over a network.  
+VIIPER uses it because it's already built into Linux and available for Windows, making virtual device emulation possible without writing custom kernel drivers yourself.
+
+### Can I use VIIPER for gaming?
+
+Yes! VIIPER can create virtual controllers (currently only Xbox360) that appear as real hardware to games and applications.
+This works with Steam, native Windows games, and any other application supporting controllers.
+
+### How is VIIPER different from other controller emulators?
+
+VIIPER uses USBIP to handle the USB protocol layer, so device emulation happens in  userspace code instead of kernel drivers.  
+This means you install USBIP once (built into Linux, usbip-win2 for Windows), and VIIPER can emulate any device type without installing additional drivers.  
+New device types can be added with pure Go code, no kernel programming required.
+
+### Can I add support for other device types?
+
+Yes! VIIPER's architecture is designed to be extensible.  
+Check the [xbox360 device implementation](./viiper/pkg/device/xbox360/) as a reference for creating new device types.
+
+### What about the proxy mode?
+
+Proxy mode sits between a USBIP client and a USBIP server (like a Linux machine sharing real USB devices).  
+VIIPER intercepts and logs all USB traffic passing through, without handling the devices directly.  
+Useful for reverse engineering USB protocols and understanding how devices communicate.
 
 ## 📄 License
 
