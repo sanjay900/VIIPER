@@ -13,8 +13,16 @@
             "path": "examples"
         },
         {
+            "path": ".github"
+        },
+        {
             "name": "root",
             "path": "."
         }
-    ]
+    ],
+    "extensions": {
+        "recommendations": [
+            "golang.go"
+        ]
+    }
 }

@@ -1,0 +1,105 @@
+name: Generate Changelog
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        required: true
+        type: string
+        description: 'Mode of operation: "release" or "snapshot"'
+      tag_name:
+        required: false
+        type: string
+        description: 'Current tag name (required for release mode)'
+    outputs:
+      changelog:
+        description: "Generated changelog"
+        value: ${{ jobs.generate.outputs.changelog }}
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    outputs:
+      changelog: ${{ steps.generate_changelog.outputs.changelog }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate Changelog
+        id: generate_changelog
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Generating changelog from commits..."
+
+          MODE="${{ inputs.mode }}"
+          if [[ "$MODE" == "release" ]]; then
+            PREVIOUS_TAG=$(git describe --tags --abbrev=0 --match "v*.*.*" HEAD^ 2>/dev/null || echo "")
+            CURRENT_TAG="${{ inputs.tag_name }}"
+            if [[ -z "$PREVIOUS_TAG" ]]; then
+              LOG_RANGE="$CURRENT_TAG"
+              CONTEXT_MSG="All changes in this release:"
+            else
+              LOG_RANGE="$PREVIOUS_TAG..$CURRENT_TAG"
+              CONTEXT_MSG="Changes since $PREVIOUS_TAG:"
+            fi
+          else
+            LATEST_TAG=$(git describe --tags --abbrev=0 --match "v*.*.*" 2>/dev/null || echo "")
+            if [[ -z "$LATEST_TAG" ]]; then
+              LOG_RANGE=""
+              CONTEXT_MSG="All changes:"
+            else
+              LOG_RANGE="$LATEST_TAG..HEAD"
+              CONTEXT_MSG="since $LATEST_TAG:"
+            fi
+          fi
+
+          mapfile -t COMMITS < <(git log --pretty=format:'%H' $LOG_RANGE)
+          CHANGELOG=""
+          for commit_hash in "${COMMITS[@]}"; do
+            commit_msg=$(git log -1 --pretty=format:'%s' "$commit_hash")
+            commit_body=$(git log -1 --pretty=format:'%b' "$commit_hash")
+            if echo "$commit_body" | grep -qiE "Changelog: (feature|fix|misc)"; then
+              changelog_type=$(echo "$commit_body" | grep -oiE "Changelog: (feature|fix|misc)" | head -n1 | cut -d ' ' -f 2 | tr '[:upper:]' '[:lower:]')
+              entry="- **$changelog_type**: $commit_msg"
+              body_content=$(echo "$commit_body" | grep -v -i "^Changelog: " | sed '/^$/d' || true)
+              if [[ -n "$body_content" ]]; then
+                entry="$entry\n  $(echo "$body_content" | sed 's/^/  /')"
+              fi
+              CHANGELOG="$CHANGELOG\n$entry"
+            fi
+          done
+
+          FEATURES=$(echo "$CHANGELOG" | grep "**feature**" || true)
+          FIXES=$(echo "$CHANGELOG" | grep "**fix**" || true)
+          MISC=$(echo "$CHANGELOG" | grep "**misc**" || true)
+
+          {
+            echo "changelog<<CHANGELOG_EOF"
+            if [[ -n "$CONTEXT_MSG" ]]; then
+              echo "$CONTEXT_MSG"
+              echo ""
+            fi
+            if [[ -n "$FEATURES" ]]; then
+              echo "### ✨ New Features"
+              echo ""
+              echo "$FEATURES" | sed 's/\\n/\n/g' | sed 's/**feature**: //g'
+              echo ""
+            fi
+            if [[ -n "$FIXES" ]]; then
+              echo "### 🐛 Fixes"
+              echo ""
+              echo "$FIXES" | sed 's/\\n/\n/g' | sed 's/**fix**: //g'
+              echo ""
+            fi
+            if [[ -n "$MISC" ]]; then
+              echo "### 🔧 Miscellaneous"
+              echo ""
+              echo "$MISC" | sed 's/\\n/\n/g' | sed 's/**misc**: //g'
+              echo ""
+            fi
+            echo "CHANGELOG_EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "Changelog generated."
