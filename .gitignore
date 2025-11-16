@@ -29,5 +29,5 @@ Thumbs.db
 # Logs
 logs/
 log/
-!internal/log
+!*/internal/log
 *.log
