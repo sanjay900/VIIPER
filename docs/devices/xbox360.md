@@ -33,7 +33,7 @@ Direction: server → client (rumble feedback)
 - 2-byte packets:
   - LeftMotor: uint8, RightMotor: uint8
 
-See `pkg/device/xbox360/protocol.go` for details.
+See `pkg/device/xbox360/inputstate.go` for details.
 
 ## Example
 

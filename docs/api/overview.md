@@ -1,6 +1,6 @@
 # API Reference
 
-VIIPER ships a lightweight TCP API (not REST) for managing virtual buses/devices and for device-specific streaming. It’s designed to be trivial to drive from any language that can open a TCP socket and send newline-terminated commands.
+VIIPER ships a lightweight TCP API for managing virtual buses/devices and for device-specific streaming. It’s designed to be trivial to drive from any language that can open a TCP socket and send newline-terminated commands.
 
 ## Protocol overview
 
