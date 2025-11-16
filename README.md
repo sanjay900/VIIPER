@@ -69,13 +69,25 @@ See the [API documentation](./docs/api) for details (🚧 in progress 🚧).
 
 - [Go](https://go.dev/) 1.25 or newer
 - USBIP installed
+- (Optional) [Make](https://www.gnu.org/software/make/)
+    - Linux/macOS: Usually pre-installed
+    - Windows: `winget install ezwinports.make`
+
 
 ### 🔄 Building from Source
 
 ```bash
 git clone https://github.com/Alia5/VIIPER.git
-cd VIIPER/viiper
-go build -o viiper ./cmd/viiper
+cd VIIPER
+make build
+```
+
+The binary will be in `dist/viiper` (or `dist/viiper.exe` on Windows).
+
+For more build options:
+```bash
+make help              # Show all available targets
+make test              # Run tests
 ```
 
 ## 🤝 Contributing

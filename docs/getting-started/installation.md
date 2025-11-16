@@ -37,14 +37,24 @@ Download the latest release from the [GitHub Releases](https://github.com/Alia5/
 #### Prerequisites
 
 - [Go](https://go.dev/) 1.25 or newer
-- USBIP installed (for testing)
+- USBIP installed
+- (Optional) [Make](https://www.gnu.org/software/make/)
+    - Linux/macOS: Usually pre-installed
+    - Windows: `winget install ezwinports.make`
 
 #### Build Steps
 
 ```bash
 git clone https://github.com/Alia5/VIIPER.git
-cd VIIPER/viiper
-go build -o viiper ./cmd/viiper
+cd VIIPER
+make build
 ```
 
-The compiled binary will be in the current directory.
+The compiled binary will be in `dist/viiper` (or `dist/viiper.exe` on Windows).
+
+**Additional build targets:**
+
+```bash
+make help          # Show all available make targets
+make test          # Run tests
+```

@@ -25,6 +25,8 @@ go.work
 .DS_Store
 Thumbs.db
 
+# build
+dist/
 
 # Logs
 logs/

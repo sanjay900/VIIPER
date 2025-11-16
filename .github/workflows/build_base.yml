@@ -16,7 +16,7 @@ on:
 
 jobs:
   test:
-    name: Test on ubuntu-latest
+    name: Test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,17 +36,9 @@ jobs:
       - name: Show Go version
         run: go version
 
-      - name: Download dependencies
-        run: go mod download
-
-      - name: Vet
-        run: go vet ./...
-
-      - name: Build (sanity)
-        run: go build ./...
-
-      - name: Test
-        run: go test -count=1 -v ./...
+      - name: Run tests
+        working-directory: .
+        run: make test
         
 
   build:
@@ -76,19 +68,13 @@ jobs:
           cache-dependency-path: |
             viiper/go.sum
 
-      - name: Prepare dist directory
-        run: |
-          mkdir -p ../dist
-
-      - name: Build CLI
+      - name: Build
         env:
           GOOS: ${{ matrix.target.goos }}
           GOARCH: ${{ matrix.target.goarch }}
-          CGO_ENABLED: "0"
+          CGO_ENABLED: 0
         run: |
-          echo Building for $GOOS/$GOARCH
-          OUT="../dist/viiper-${{ matrix.target.goos }}-${{ matrix.target.goarch }}${{ matrix.target.ext }}"
-          go build -trimpath -ldflags "-s -w" -o "$OUT" ./cmd/viiper
+          go build -trimpath -ldflags "-s -w" -o ../dist/viiper-${{ matrix.target.goos }}-${{ matrix.target.goarch }}${{ matrix.target.ext }} ./cmd/viiper
           ls -la ../dist
 
       - name: Upload artifact
