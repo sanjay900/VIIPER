@@ -89,7 +89,7 @@ func TestBusDevicesList(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			addr, srv, done := handlerTest.StartAPIServer(t, func(r *api.Router, s *usb.Server, apiSrv *api.Server) {
-				r.Register("bus/{id}/devices", handler.BusDevicesList(s))
+				r.Register("bus/{id}/list", handler.BusDevicesList(s))
 			})
 			defer done()
 
@@ -97,7 +97,7 @@ func TestBusDevicesList(t *testing.T) {
 			if tt.setup != nil {
 				tt.setup(t, srv)
 			}
-			line, err := c.Do("bus/{id}/devices", nil, tt.pathParams)
+			line, err := c.Do("bus/{id}/list", nil, tt.pathParams)
 			assert.NoError(t, err)
 			assert.Equal(t, tt.expectedResponse, line)
 		})

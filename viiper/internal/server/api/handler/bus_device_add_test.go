@@ -129,7 +129,7 @@ func TestBusDeviceAdd_NoConnection_TimeoutCleanup(t *testing.T) {
 	apiSrv := api.New(usbSrv, addr, apiCfg, slog.Default())
 	r := apiSrv.Router()
 	r.Register("bus/{id}/add", handler.BusDeviceAdd(usbSrv, apiSrv))
-	r.Register("bus/{id}/devices", handler.BusDevicesList(usbSrv))
+	r.Register("bus/{id}/list", handler.BusDevicesList(usbSrv))
 	require.NoError(t, apiSrv.Start())
 	defer apiSrv.Close()
 
@@ -144,7 +144,7 @@ func TestBusDeviceAdd_NoConnection_TimeoutCleanup(t *testing.T) {
 	_, err = c.DeviceAdd(80100, "xbox360")
 	require.NoError(t, err)
 
-	// Immediately after add, the device should be present
+	// Immediately after add, the device should be present (server now registers bus/{id}/list)
 	list, err := c.DevicesList(80100)
 	require.NoError(t, err)
 	require.Len(t, list.Devices, 1)
