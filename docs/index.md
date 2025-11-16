@@ -1,0 +1,36 @@
+<img src="viiper.svg" align="right" width="200"/>
+<br />
+
+# VIIPER Documentation
+
+Welcome to the VIIPER documentation!
+
+VIIPER is a tool to create virtual input devices using USBIP.
+
+## Quick Links
+
+- [Installation](getting-started/installation.md)
+- [CLI Reference](cli/overview.md)
+- [API Reference](api/overview.md)
+- [GitHub Repository](https://github.com/Alia5/VIIPER)
+
+## What is VIIPER?
+
+VIIPER creates virtual USB input devices using the USBIP protocol.  
+These virtual devices appear as real hardware to the operating system and applications, allowing you to emulate controllers, keyboards, and other input devices without physical hardware.
+
+Beyond device emulation, VIIPER can proxy real USB devices for traffic inspection and reverse engineering.  
+All devices can and must be controlled programmatically via an API.
+
+## Key Features
+
+- ✅ Virtual input device emulation over IP using USBIP    
+    - ✅ Xbox 360 controller emulation (virtual device)
+    - 🔜 Keyboard and mouse emulation
+    - 🔜 ???  
+        🚧 Architecture allows for more device types (keyboard, mouse, other gamepads), but only Xbox 360 controller is implemented so far
+- ✅ USBIP server mode: expose virtual devices to remote clients
+- ✅ Proxy mode: forward real USB devices and inspect/record traffic
+- ✅ Cross-platform: works on Linux and Windows
+- ✅ Flexible logging (including raw USB packet logs)
+- ✅ API server for device/bus management and controlling virtual devices programmatically

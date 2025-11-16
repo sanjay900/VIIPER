@@ -1,4 +1,4 @@
-<img src="viiper.svg" align="right" width="128"/>
+<img src="docs/viiper.svg" align="right" width="128"/>
 <br />
 
 
@@ -48,6 +48,10 @@ You must have USBIP installed on your system.
   - Install: `sudo pacman -S usbip`
   - Docs: [Arch Wiki: USBIP](https://wiki.archlinux.org/title/USB/IP)
 
+- **Ubuntu:**  
+  - Install: `sudo apt install linux-tools-generic`
+  - Docs: [Ubuntu USBIP Manual](https://manpages.ubuntu.com/manpages/noble/man8/usbip.8.html)
+
 **Windows:**
 
 - [usbip-win2](https://github.com/vadimgrn/usbip-win2) is by far the most complete implementation of USBIP for Windows (comes with a **SIGNED** kernel mode driver).
@@ -57,7 +61,7 @@ You must have USBIP installed on your system.
 VIIPER includes an  API for device and bus management, as well as streaming device control.  
 Each device type exposes its own control interface via the API.
 
-See the [API documentation](./doc/api.md) for details (🚧 in progress 🚧).
+See the [API documentation](./docs/api) for details (🚧 in progress 🚧).
 
 ## 🛠️ Development
 
