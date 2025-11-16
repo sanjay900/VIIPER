@@ -27,10 +27,11 @@ All devices _can and must be_ controlled programmatically via an API.
 ### ✨ Features
 
 - ✅ Virtual input device emulation over IP using USBIP
-  - ✅ Xbox 360 controller emulation (virtual device)
-  - 🔜 Keyboard and mouse emulation
+  - ✅ Xbox 360 controller emulation (virtual device) — see [Devices › Xbox 360 Controller](devices/xbox360.md)
+  - ✅ HID Keyboard with N-key rollover and LED feedback — see [Devices › Keyboard](devices/keyboard.md)
+  - ✅ HID Mouse with 5 buttons and horizontal/vertical wheel — see [Devices › Mouse](devices/mouse.md)
   - 🔜 ???  
-    🚧 Architecture allows for more device types (keyboard, mouse, other gamepads), but only Xbox 360 controller is implemented so far
+    🚧 Extensible architecture allows for more device types (other gamepads, specialized HID)
 - ✅ USBIP server mode: expose virtual devices to remote clients
 - ✅ Proxy mode: forward real USB devices and inspect/record traffic (for reversing)
 - ✅ Cross-platform: works on Linux and Windows

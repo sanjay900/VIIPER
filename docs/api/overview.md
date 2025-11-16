@@ -68,6 +68,38 @@ Direction: server ➜ client (rumble)
 
 See `pkg/device/xbox360/protocol.go` for full details.
 
+#### HID keyboard stream (device type: `keyboard`)
+
+Direction: client ➜ server (keys pressed)
+
+- Variable-length packets per frame:
+    - Header: Modifiers uint8, KeyCount uint8
+    - Body: KeyCount bytes of HID Usage IDs for currently pressed (non-modifier) keys
+
+Direction: server ➜ client (LED state)
+
+- 1-byte packets whenever host LED state changes:
+    - Bit 0 NumLock, Bit 1 CapsLock, Bit 2 ScrollLock
+
+Host-facing HID input report is 34 bytes: [Modifiers (1), Reserved (1), 256-bit key bitmap (32)].
+
+See `pkg/device/keyboard/` for helpers and constants.
+
+#### HID mouse stream (device type: `mouse`)
+
+Direction: client ➜ server (motion/buttons)
+
+- Fixed 5-byte packets per frame:
+    - Buttons uint8 (bits 0..4)
+    - dX int8, dY int8
+    - Wheel int8, Pan int8
+
+Direction: server ➜ client
+
+- None (mouse is input-only)
+
+Note: Motion and wheel deltas are consumed after each IN report so movement is relative.
+
 Note on protocol compatibility:
 
 - The wire format is modeled after the XInput gamepad state (XINPUT_GAMEPAD) but is not byte‑for‑byte identical. Key differences:
