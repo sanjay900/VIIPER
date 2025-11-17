@@ -72,6 +72,23 @@ if err := stream.WriteBinary(input); err != nil {
 }
 ```
 
+### Mouse button constants
+
+For the virtual mouse, use exported bitmask constants from `viiper/pkg/device/mouse`:
+
+```go
+import (
+  "viiper/pkg/device/mouse"
+)
+
+// Left click (press then release)
+press := &mouse.InputState{Buttons: mouse.Btn_Left}
+_ = stream.WriteBinary(press)
+time.Sleep(60 * time.Millisecond)
+release := &mouse.InputState{Buttons: 0}
+_ = stream.WriteBinary(release)
+```
+
 ### Receiving device feedback (event-driven)
 
 For devices that send feedback (rumble, LEDs), you can use `StartReading` with a decode function to avoid polling. The decode function must read exactly one message from a `*bufio.Reader`.

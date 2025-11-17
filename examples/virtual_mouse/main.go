@@ -125,7 +125,7 @@ func main() {
 
 			// Simulate a short left click: press then release
 			time.Sleep(50 * time.Millisecond)
-			press := &mouse.InputState{Buttons: 0x01}
+			press := &mouse.InputState{Buttons: mouse.Btn_Left}
 			if err := stream.WriteBinary(press); err != nil {
 				fmt.Printf("Write error (press): %v\n", err)
 				return
