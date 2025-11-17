@@ -135,13 +135,13 @@ func main() {
 			var buttons uint32
 			switch (frame / 60) % 4 {
 			case 0:
-				buttons = 0x0001 // A
+				buttons = xbox360.ButtonA
 			case 1:
-				buttons = 0x0002 // B
+				buttons = xbox360.ButtonB
 			case 2:
-				buttons = 0x0004 // X
+				buttons = xbox360.ButtonX
 			default:
-				buttons = 0x0008 // Y
+				buttons = xbox360.ButtonY
 			}
 			state := &xbox360.InputState{
 				Buttons: buttons,

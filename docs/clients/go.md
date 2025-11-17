@@ -63,7 +63,7 @@ defer stream.Close()
 
 // Send input using device structs (client → device)
 input := &xbox360.InputState{
-  Buttons: 0x0001, // A button
+  Buttons: xbox360.ButtonA,
   LX:      -32768, // Left stick left
   LY:      32767,  // Left stick up
 }
@@ -106,7 +106,7 @@ go func() {
   }
 }()
 
-state := &xbox360.InputState{Buttons: 0x0001}
+state := &xbox360.InputState{Buttons: xbox360.ButtonA}
 err := stream.WriteBinary(state)
 ...
 ```
