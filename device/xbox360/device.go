@@ -31,7 +31,7 @@ func New(o *device.CreateOptions) *Xbox360 {
 			d.descriptor.Device.IDProduct = *o.IdProduct
 		}
 		if o.SubType != nil {
-			d.descriptor.Interfaces[0]ClassDescriptors[0].Payload[2] = *o.SubType
+			d.descriptor.Interfaces[0].ClassDescriptors[0].Payload[2] = *o.SubType
 		}
 	}
 	return d
