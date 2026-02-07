@@ -7,7 +7,7 @@ import (
 
 // InputState represents the controller state used to build a report.
 // Values are more or less XInput's C API
-// viiper:wire xbox360 c2s buttons:u32 lt:u8 rt:u8 lx:i16 ly:i16 rx:i16 ry:i16
+// viiper:wire xbox360 c2s buttons:u32 lt:u8 rt:u8 lx:i16 ly:i16 rx:i16 ry:i16 reserved:u8*6
 type InputState struct {
 	// Button bitfield (lower 16 bits used typically), higher bits reserved
 	Buttons uint32
@@ -19,6 +19,7 @@ type InputState struct {
 	Reserved [6]byte
 }
 
+// viiper:wire xbox360guitarherodrums c2s buttons:u32 _:u8 _:u8 greenVelocity:u8 redVelocity:u8 yellowVelocity:u8 blueVelocity:u8 orangeVelocity:u8 kickVelocity:u8 midiPacket:u8*6
 type GuitarHeroDrumsInputState struct {
 	// Button bitfield (lower 16 bits used typically), higher bits reserved
 	Buttons uint32
